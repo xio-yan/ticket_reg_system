@@ -1,0 +1,733 @@
+:root {
+  --bg: #fddfac;          /* 奶油背景 */
+  --panel: #ffffff;       /* 卡片底 */
+  --muted: #9c8973;       /* 淺木色文字 */
+  --text: #5b4636;        /* 咖啡字色 */
+  --accent: #e7c07c;      /* 奶金色 */
+  --accent-2: #f3d9a4;    /* 提亮奶金 */
+  --danger: #e76f51;      /* 奶油紅 */
+  --ok: #90b77d;          /* 奶綠 */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+body {
+  font-family: "Poppins", "Noto Sans TC", sans-serif;
+}
+
+.login-screen {
+  position: fixed;
+  inset: 0;
+  background: #f3e9da; /* 奶油底色 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.login-box {
+  background: rgba(255, 252, 244, 0.8);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 36px;
+  border-radius: 18px;
+  text-align: center;
+  border: 2px solid rgba(232, 218, 186, 0.8);
+  box-shadow:
+    0 8px 28px rgba(170,150,120,0.25),
+    inset 2px 2px 8px rgba(255,255,255,0.8),
+    inset -2px -2px 6px rgba(210,185,150,0.18);
+
+  animation: loginFloat 0.65s ease-out, loginBreath 4s ease-in-out infinite;
+}
+
+.login-box h2 {
+  color: #6b4e2e;
+  font-weight: 700;
+  margin-bottom: 18px;
+  font-size: 20px;
+}
+
+.login-box input {
+  width: 230px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 2px solid #e6d2ae;
+  background: #fffdfa;
+  font-size: 15px;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.06),
+              inset -2px -2px 6px rgba(255,255,255,0.9);
+}
+.login-box input:focus {
+  border: 2px solid #eac993;
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(238,206,155,0.45),
+    inset 2px 2px 5px rgba(210,185,150,0.2),
+    inset -2px -2px 5px rgba(255,255,255,0.8);
+}
+
+/* Buttons remain consistent */
+
+.error-msg {
+  color: #f43f5e;
+  margin-top: 8px;
+}
+
+.btn.warn {
+  background: #e11d48;
+  color: white;
+}
+.btn.warn:hover {
+  background: #be123c;
+}
+
+.login-logo {
+  width: 140px;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 6px rgba(179,149,96,0.45)); /* 奶金柔光 */
+}
+
+
+.header-logo {
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(1); /* 白色系圖示效果 */
+}
+
+.login-logo { width: 200px; }
+.header-logo { height: 100px; }
+.header-logo {
+  height: 50px;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+}
+.login-logo {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+
+/* Reset & Base */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans TC", "Microsoft JhengHei", Segoe UI, sans-serif;
+  line-height: 1.5;
+}
+
+/* Topbar with sweet cream + light border */
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 18px 24px;
+  background: #fcfbf8;
+  border-bottom: 1px solid #e6dcc8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.topbar h1 {
+  margin:0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #49321d;
+  letter-spacing: 0.3px;
+}
+.stats {
+  display: flex;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--muted);
+
+  align-items: center;   /* ❗垂直置中 */
+  height: 100%;          /* 讓 flex 有參考高度 */
+}
+
+
+/* Layout */
+.container {
+  max-width: 1080px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+/* Card / Panel */
+.panel {
+  background: var(--panel);
+  padding: 20px 32px;
+  border-radius: 14px;
+  margin-bottom: 36px;
+  border: 16px solid #efe6d8;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.03);
+}
+.panel h2 {
+  margin-bottom: 12px;
+  font-size: 30px;
+  color: #4e3a26;
+}
+.panel-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 18px;
+  flex-wrap:wrap;
+  gap:16px;
+}
+.panel-row h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  height: 20px;  /* ❗同輸入框高度 */
+  font-size: 30px;
+  font-weight: 600;
+}
+
+
+/* Search */
+.searchbox {
+  display:flex;
+  height: 80px;
+  margin-bottom: 0px;
+  gap:15px;
+  align-items:center;
+}
+.searchbox input {
+  padding:10px 10px;
+  border-radius:10px;
+  border:1px solid #e6dcc8;
+  background:#fffdfa;
+  color: var(--text);
+  transition: 0.2s;
+  min-width: 260px;
+}
+.searchbox input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(231,192,124,0.25);
+}
+
+/* Table */
+.table-wrapper {
+  overflow:auto;
+  border-radius: 12px;
+  margin-top: 16px;
+  border:1px solid #e6dcc8;
+}
+table {
+  width:100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  text-align:left;
+  padding: 14px 14px;
+  background:#fff8e9;
+  color:#8b6b4a;
+  border-bottom:1px solid #eadfcd;
+  position: sticky;
+  top: 0;
+}
+td {
+  padding: 14px 14px;
+  border-bottom:1px solid #f1e8dc;
+}
+td.right { text-align:right; }
+
+/* Badges */
+.badge {
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
+  border:1px solid #eadfcd;
+}
+.badge.ok {
+  background: rgba(144,183,125,0.18);
+  border-color: rgba(144,183,125,0.4);
+  color:#496b35;
+}
+.badge.wait {
+  background: rgba(231,192,124,0.2);
+  border-color: rgba(231,192,124,0.4);
+  color:#7d5a2d;
+}
+
+/* Buttons */
+.btn {
+  padding:8px 20px;
+  border-radius:10px;
+  border:1px solid #e6dcc8;
+  background:#fffdfa;
+  color:var(--text);
+  cursor:pointer;
+  transition:0.2s;
+  white-space: nowrap;       /* ❗防止文字換行 */
+  line-height: 1.2;          /* 讓文字居中不擠 */
+  font-weight: 600;
+}
+#btnAdd {
+  min-width: 70px;
+  text-align: center;
+}
+
+.btn:hover {
+  border-color:#d8c8b4;
+  background:#fff7e7;
+  transform: translateY(-1px);
+}
+.btn.primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border:none;
+  color:#5b4636;
+  font-weight:600;
+}
+.btn.warn {
+  background: rgba(231,111,81,0.15);
+  border-color: rgba(231,111,81,0.3);
+  color:#b65740;
+}
+.actions { display:flex; gap:10px; }
+
+/* Dialog */
+dialog::backdrop { background: rgba(0,0,0,0.25); }
+dialog {
+  border:1px solid #e6dcc8;
+  border-radius: 14px;
+  background:#fffdf7;
+  color: var(--text);
+  padding: 20px;
+  width: 440px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+}
+label { display:block; margin:8px 0; color:#715a43; }
+input, textarea {
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6dcc8;
+  background:#fffdfa;
+  color:var(--text);
+}
+input:focus, textarea:focus {
+  border-color: var(--accent);
+  outline:none;
+  box-shadow: 0 0 0 3px rgba(231,192,124,0.25);
+}
+menu { display:flex; justify-content:flex-end; gap:10px; padding-top: 12px; }
+
+/* Minor text */
+small { color: var(--muted); }
+
+/* Panel 邊框加深、卡片層次更明顯 */
+.panel {
+  border: 2px solid #e8d7bd; /* 原本比較淡 → 更結實的奶茶線 */
+  box-shadow:
+    4px 6px 18px rgba(0,0,0,0.06),
+    inset 2px 2px 5px rgba(255,255,255,0.7),
+    inset -2px -2px 5px rgba(210,185,150,0.18);
+}
+
+/* Table 邊界更清楚 */
+table, td, th {
+  border-color: #dec9a7 !important;
+}
+
+#importForm {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+
+/* Input 聚焦線更明確奶茶色 */
+input:focus, textarea:focus {
+  border: 2px solid #eac993 !important;
+  box-shadow:
+    0 0 0 4px rgba(241,212,165,0.45),
+    inset 2px 2px 5px rgba(210,185,150,0.2),
+    inset -2px -2px 5px rgba(255,255,255,0.8);
+}
+
+/* Button 邊框清楚 */
+.btn {
+  border: 2px solid #e6d2ae !important;
+}
+.btn:hover {
+  border-color: #d8b980 !important;
+}
+
+.panel {
+  transition: transform .18s ease, box-shadow .18s ease;
+  will-change: transform;
+}
+
+.panel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+tbody tr {
+  transition: background-color .15s ease;
+}
+
+tbody tr:hover {
+  background: rgba(247,235,207,0.45);
+}
+
+.btn {
+  transition: transform .15s ease, background .15s ease;
+  will-change: transform;
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+.login-box {
+  animation: softBreath 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes softBreath {
+  0%   { transform: scale(1);   opacity: 1; }
+  50%  { transform: scale(1.015); opacity: .98; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+.login-logo {
+  animation: logoFloat 3.5s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* 固定底部版權資訊區 */
+.app-footer {
+  width: 100%;
+  text-align: center;
+  padding: 14px 0;
+  
+  font-size: 14px;
+  color: var(--muted);
+
+  background: #fffbf4;
+  border-top: 1px solid #eadfcd;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.03);
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  animation: footerFade 0.4s ease;
+  z-index: 99;
+}
+
+/* 防止內容被 footer 蓋住 */
+body {
+  padding-bottom: 60px;
+}
+
+@keyframes footerFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.footer-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.footer-link:hover {
+  color: #b08448; /* 奶金咖啡色 */
+  background: rgba(231,192,124,0.28);
+  box-shadow: 0 0 6px rgba(231,192,124,0.25);
+  transform: translateY(-1px);
+}
+
+/* Topbar Logo 慢速呼吸縮放 */
+.header-logo {
+  animation: logoBreath 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes logoBreath {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); } /* 呼吸幅度 */
+  100% { transform: scale(1); }
+}
+
+/* ===== 下雪背景 ===== */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 大顆慢雪 */
+body::before,
+body::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  animation: snowFall 8s linear infinite;
+}
+
+/* 前景大雪 */
+body::before {
+  background-image: radial-gradient(white 2px, transparent 4px),
+                    radial-gradient(#fff6ca 2px, transparent 4px);
+  animation-duration: 6s;
+  opacity: 0.9;
+}
+
+/* 後景小雪 */
+body::after {
+  background-image: radial-gradient(white 1.2px, transparent 3px),
+                    radial-gradient(#fff6ca 1.2px, transparent 3px);
+  animation-duration: 10s;
+  opacity: 0.6;
+}
+
+@keyframes snowFall {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(100vh); }
+}
+/* ===== 雪人固定在右下角 ===== */
+body::after,
+body::before {
+  pointer-events: none;
+}
+
+#snowman {
+  pointer-events: none;
+  position: fixed;
+  right: 20px;
+  bottom: 0;
+  width: 160px;   /* 雪人大小你可調 */
+  z-index: 1000;
+  animation: snowmanFloat 4s ease-in-out infinite;
+}
+
+@keyframes snowmanFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ===== ❄️ 背景雪 (在 panel 後) ===== */
+
+.snow-bg {
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0; /* 在 background 層 */
+  overflow: hidden;
+}
+
+/* 大雪 */
+.snow-bg::before,
+.snow-bg::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -10vh;
+  width: 100%;
+  height: 120vh;
+  background-repeat: repeat;
+  pointer-events: none;
+}
+
+/* 明顯大顆雪 */
+.snow-bg::before {
+  background-image: radial-gradient(white 3px, transparent 5px),
+                    radial-gradient(#fff4c7 2.5px, transparent 4px);
+  background-size: 200px 200px;
+  animation: snowFallStrong 5s linear infinite;
+  opacity: 0.8;
+}
+
+/* 小雪 */
+.snow-bg::after {
+  background-image: radial-gradient(white 1.5px, transparent 4px),
+                    radial-gradient(#fff4c7 1px, transparent 4px);
+  background-size: 180px 180px;
+  animation: snowFallWeak 8s linear infinite;
+  opacity: 0.6;
+}
+
+/* Panel & content 在雪前面 */
+main, header, footer, .panel {
+  position: relative;
+  z-index: 10;
+}
+
+/* 動畫 */
+@keyframes snowFallStrong {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes snowFallWeak {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(100vh); }
+}
+/* 固定 Topbar 在頁面最上方 */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100; /* 確保比雪跟 panel 前面 */
+}
+
+/* 讓內容被 topbar 騰出空間 */
+body {
+  padding-top: 80px; /* 視 topbar 高度調整(你現在約70px) */
+}
+.topbar {
+  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.65); /* 奶油玻璃效果 */
+}
+/* ===== 🎄自然分散彩燈 ===== */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.65);
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 18px;
+  pointer-events: none;
+
+  background-image:
+    /* 主燈層：大顆 */
+    radial-gradient(circle, #ffd36a 4px, transparent 5px),
+    radial-gradient(circle, #ff8da1 4px, transparent 5px),
+    radial-gradient(circle, #9ee6ff 4px, transparent 5px),
+    radial-gradient(circle, #8fff95 4px, transparent 5px),
+    radial-gradient(circle, #ffc8ff 4px, transparent 5px),
+
+    /* 次燈層：小顆 */
+    radial-gradient(circle, #ffd36a 2px, transparent 4px),
+    radial-gradient(circle, #ff8da1 2px, transparent 4px),
+    radial-gradient(circle, #9ee6ff 2px, transparent 4px),
+    radial-gradient(circle, #8fff95 2px, transparent 4px),
+    radial-gradient(circle, #ffc8ff 2px, transparent 4px);
+
+  background-size:
+    12% 100%, 14% 100%, 16% 100%, 18% 100%, 20% 100%,
+    13% 100%, 15% 100%, 17% 100%, 19% 100%, 21% 100%;
+
+  /* 隨機位置偏移 */
+  background-position:
+    2% 80%, 12% 60%, 25% 75%, 40% 55%, 57% 70%,
+    10% 50%, 30% 65%, 48% 60%, 68% 80%, 88% 55%;
+
+  animation: xmasTwinkle 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(255,255,200,0.8));
+}
+
+@keyframes xmasTwinkle {
+  0%, 100% {
+    opacity: .9;
+    filter: brightness(1) drop-shadow(0 0 6px rgba(255,255,200,0.9));
+  }
+  30% {
+    opacity: .6;
+    filter: brightness(.92) drop-shadow(0 0 3px rgba(255,255,200,0.6));
+  }
+  60% {
+    opacity: 1;
+    filter: brightness(1.2) drop-shadow(0 0 9px rgba(255,255,200,1));
+  }
+}
+
+.gift {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 9999;
+  animation: giftDropArc 1.9s ease-out forwards;
+}
+
+/* 🎁 弧線彈起 → 掉落旋轉 */
+@keyframes giftDropArc {
+  0% {
+    transform: translate(0, 0) scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    /* ✨ 先往上 + 往左/右偏一點 (做弧線) */
+    transform: translate(calc(var(--arc) * -1px), -30px) scale(1.1) rotate(-15deg);
+    opacity: 1;
+  }
+  20% {
+    /* 再微調回來，繼續弧度 */
+    transform: translate(calc(var(--arc) * 0.5px), -15px) scale(1) rotate(10deg);
+  }
+  30% {
+    /* 回到原點 */
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  100% {
+    /* 掉落到底 */
+    transform: translateY(100vh) rotate(380deg);
+    opacity: 0;
+  }
+}
+
+/* ===== 全站滑鼠：正常狀態 ===== */
+html, body, * {
+  cursor: url("cursor.cur") 10 2, auto !important;
+}
+
+/* ===== 可點擊狀態：button、link、clickable class ===== */
+button, a, input[type="button"], input[type="submit"], .clickable {
+  cursor: url("click.cur") 10 2, pointer !important;
+}
+select, input[type="text"], textarea {
+  cursor: url("cursor_normal.png") 10 2, text !important;
+}
+*, button, a {
+  cursor: inherit;
+}

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>售票收錢登記系統</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="snow-bg"></div>
+  <div class="bg-santa"></div>
+  <div class="bg-lines"></div>
+
+
+  <div id="loginScreen" class="login-screen">
+    <div class="login-box">
+      <img src="logo.png" class="login-logo" alt="Logo">
+      <h2>請輸入密碼</h2>
+      <input id="loginPwd" type="password" placeholder="密碼(去找趙子瑩)">
+      <button id="loginBtn" class="btn primary">登入</button>
+      <p id="loginError" class="error-msg"></p>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <h1 style="display:flex; align-items:center; gap:10px;">
+      <img src="logo.png" class="header-logo" alt="Logo">
+      售票收錢登記系統
+    </h1>
+
+    <div class="stats">
+      <span id="stat-paid">已付款：0</span>
+      <span id="stat-unpaid">未付款：0</span>
+      <span id="stat-total">總數：0</span>
+      <button id="logoutBtn" class="btn warn" style="margin-left:10px;">登出</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h2>匯入 Excel</h2>
+      <form id="importForm">
+        <input type="file" id="excelFile" accept=".xlsx,.xls" required />
+        <button type="submit" class="btn primary">匯入</button>
+        <small>支援欄位：班級、學號、姓名、座位區、電話、應收金額（可使用中文或英文欄名）。</small>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="panel-row">
+        <h2>名單</h2>
+        <div class="searchbox">
+          <input id="searchInput" placeholder="搜尋：學號 / 姓名 / 班級 / 電話 / 流水號" />
+          <button id="btnAdd" class="btn">新增</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>狀態</th>
+              <th>班級</th>
+              <th>學號</th>
+              <th>姓名</th>
+              <th>座位區</th>
+              <th>電話</th>
+              <th class="right">應收金額</th>
+              <th>流水號</th> <!-- ✅ 新增 -->
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="listBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- 編輯/新增對話框 -->
+  <dialog id="editDialog">
+    <form id="editForm">
+      <h3 id="editTitle">編輯資料</h3>
+      <input type="hidden" id="editId">
+      <label>班級 <input id="editKlass" required></label>
+      <label>學號 <input id="editSno"></label>
+      <label>姓名 <input id="editName" required></label>
+      <label>座位區 <input id="editSeat"></label>
+      <label>電話 <input id="editPhone"></label>
+      <label>應收金額 <input id="editAmount" type="number" min="0" step="1" required></label>
+      <label>備註 <textarea id="editNotes" rows="3"></textarea></label>
+
+      <!-- ✅ 流水號欄位 -->
+      <label>流水號
+        <input id="editSerial" placeholder="付款後可編輯 (四位數)" disabled>
+      </label>
+
+      <menu>
+        <button value="cancel" class="btn">取消</button>
+        <button id="btnDelete" class="btn warn" type="button">刪除</button>
+        <button id="btnSave" value="default" class="btn primary">儲存</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <!-- 付款確認 -->
+  <dialog id="payDialog">
+    <form method="dialog" id="payForm">
+      <h3>確認收款</h3>
+      <p id="payText"></p>
+      <menu>
+        <button value="cancel" class="btn">取消</button>
+        <button id="btnConfirmPay" value="default" class="btn primary">確認收款</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <!-- 取消付款（需要密碼） -->
+  <dialog id="cancelDialog">
+    <form method="dialog" id="cancelForm">
+      <h3>取消付款</h3>
+      <p>此動作需要密碼，請輸入密碼以恢復為「未付款」。</p>
+      <label>密碼 <input id="cancelPwd" type="password" placeholder="請輸入密碼(不是登入那組)" required></label>
+      <menu>
+        <button value="cancel" class="btn">返回</button>
+        <button id="btnConfirmCancel" value="default" class="btn warn">確認取消</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+
+  <img src="snowman.png" id="snowman">
+
+
+  <footer class="app-footer">
+    <div>Powered by 
+      <a href="https://www.instagram.com/wayne.94.20/" target="_blank" class="footer-link">Xioyan</a>
+    </div>
+    <div>v1.6.9</div>
+  </footer>
+
+  <script>
+  document.addEventListener("click", (e) => {
+    const gift = document.createElement("div");
+    gift.className = "gift";
+
+    // 隨機拋物線方向與力度
+    const arc = (Math.random() * 40) + 20; 
+    const direction = Math.random() > 0.5 ? 1 : -1; 
+
+    gift.style.setProperty('--arc', arc * direction);
+    gift.style.left = e.clientX + "px";
+    gift.style.top = (e.clientY - 20) + "px";
+    gift.style.backgroundImage = "url('gift.png')";
+
+    document.body.appendChild(gift);
+
+    gift.addEventListener("animationend", () => gift.remove());
+  });
+  </script>
+
+
+</body>
+</html>
