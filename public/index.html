@@ -129,7 +129,8 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="app.js"></script>
 
-  <img src="snowman.png" id="snowman">
+  <img id="snowman" src="snowman.png" alt="snowman">
+
 
 
   <footer class="app-footer">
@@ -157,6 +158,74 @@
 
     gift.addEventListener("animationend", () => gift.remove());
   });
+  </script>
+
+  <script>
+  const snowman = document.getElementById("snowman");
+
+  let startX = 0, startY = 0;
+  let originRight = 20;
+  let originBottom = 0;
+  let isDragging = false;
+
+  // 阻止雪人點擊觸發全頁事件
+  snowman.addEventListener("click", e => e.stopPropagation());
+
+  snowman.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // ✅ 最關鍵：阻止禮物事件
+
+    isDragging = true;
+
+    snowman.style.transition = "none";
+    snowman.style.animation = "none";
+    snowman.style.cursor = "grabbing";
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    snowman._right = parseFloat(getComputedStyle(snowman).right);
+    snowman._bottom = parseFloat(getComputedStyle(snowman).bottom);
+
+    window.addEventListener("mousemove", dragSnowman);
+    window.addEventListener("mouseup", releaseSnowman);
+  });
+
+
+  function dragSnowman(e) {
+    if (!isDragging) return;
+    const dx = startX - e.clientX;
+    const dy = startY - e.clientY;
+
+    snowman.style.right = `${snowman._right + dx}px`;
+    snowman.style.bottom = `${snowman._bottom + dy}px`;
+  }
+
+  function releaseSnowman() {
+    if (!isDragging) return;
+    isDragging = false;
+
+    snowman.classList.remove("snowman-bounce"); // 清除舊動畫
+
+    snowman.style.transition = "all .45s cubic-bezier(.25,1.5,.5,1)";
+    snowman.style.right = originRight + "px";
+    snowman.style.bottom = originBottom + "px";
+    snowman.style.cursor = "grab";
+
+    // ✨ 回彈完→觸發果凍彈
+    setTimeout(() => {
+      snowman.classList.add("snowman-bounce");
+
+      // 0.45 秒是回彈動畫時間
+      setTimeout(() => {
+        snowman.classList.remove("snowman-bounce");
+        snowman.style.animation = "snowmanFloat 4s ease-in-out infinite";
+      }, 400);
+    }, 450);
+
+    window.removeEventListener("mousemove", dragSnowman);
+    window.removeEventListener("mouseup", releaseSnowman);
+  }
   </script>
 
 

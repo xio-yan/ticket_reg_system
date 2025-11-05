@@ -525,14 +525,21 @@ body::before {
 }
 
 #snowman {
-  pointer-events: none;
   position: fixed;
   right: 20px;
   bottom: 0;
-  width: 160px;   /* 雪人大小你可調 */
+  width: 160px;
   z-index: 1000;
+  cursor: grab;
   animation: snowmanFloat 4s ease-in-out infinite;
+  transition: transform .4s ease;
+  pointer-events: auto;
 }
+#snowman:active {
+  cursor: grabbing;
+  animation: none; /* 拖曳时取消摇摆 */
+}
+
 
 @keyframes snowmanFloat {
   0%, 100% { transform: translateY(0); }
@@ -730,4 +737,27 @@ select, input[type="text"], textarea {
 }
 *, button, a {
   cursor: inherit;
+}
+
+/* --- 雪人彈回果凍效果 --- */
+@keyframes snowmanBounce {
+  0%   { transform: scale(1,1); }
+  25%  { transform: scale(1.15, 0.85); } /* 拉寬壓低 */
+  50%  { transform: scale(0.92, 1.10); } /* 縮窄拉高 */
+  75%  { transform: scale(1.03, 0.97); }
+  100% { transform: scale(1,1); }
+}
+
+/* 微抖 */
+@keyframes snowmanWiggle {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* 用 class 控制 */
+.snowman-bounce {
+  animation: snowmanBounce 0.4s ease-out, snowmanWiggle 0.28s ease-out;
 }
