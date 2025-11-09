@@ -761,3 +761,137 @@ select, input[type="text"], textarea {
 .snowman-bounce {
   animation: snowmanBounce 0.4s ease-out, snowmanWiggle 0.28s ease-out;
 }
+
+/* === 響應式設計 (RWD) === */
+
+/* 平板與中型螢幕 (<=1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .panel {
+    padding: 16px 20px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th, td {
+    padding: 10px 8px;
+  }
+
+  .searchbox input {
+    min-width: 180px;
+  }
+}
+
+/* 手機直式 (<=768px) */
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .stats {
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .panel-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .searchbox {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+  }
+
+  .searchbox input {
+    width: 100%;
+  }
+
+  #btnAdd {
+    align-self: flex-end;
+    width: 100%;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 10px;
+  }
+
+  th, td {
+    font-size: 12px;
+  }
+
+  .panel h2 {
+    font-size: 18px;
+  }
+
+  dialog {
+    width: 90%;
+  }
+
+  .btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* 頁尾在手機置中顯示 */
+  .app-footer {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+}
+
+/* 小手機 (<=480px) */
+@media (max-width: 480px) {
+  .topbar h1 {
+    font-size: 16px;
+  }
+
+  .stats span {
+    font-size: 12px;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  .login-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .login-box input {
+    width: 100%;
+  }
+
+  .login-logo {
+    width: 120px;
+  }
+}
+
+#stat-sum {
+  color: #5b4636;
+  font-weight: 700;
+  background: linear-gradient(90deg, #f3d9a4, #e7c07c);
+  padding: 4px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}

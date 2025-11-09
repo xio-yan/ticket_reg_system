@@ -43,6 +43,20 @@ db.serialize(() => {
   );`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_students_studentno ON students(student_no);`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_students_paid ON students(paid);`);
+
+    // === 驗票欄位保護（自動補欄位，不會影響舊資料） ===
+  db.all("PRAGMA table_info(students)", (err, rows) => {
+  if (err || !rows) return;
+  const cols = rows.map(c => c.name);
+  if (!cols.includes("verified")) {
+     db.run(`ALTER TABLE students ADD COLUMN verified INTEGER DEFAULT 0;`);
+   }
+   if (!cols.includes("verified_at")) {
+     db.run(`ALTER TABLE students ADD COLUMN verified_at TEXT;`);
+   }
+  });
+
+
 });
 
 function nowISO() {
@@ -131,13 +145,22 @@ app.post('/api/import', upload.single('file'), (req, res) => {
 
 // ===== Query & stats =====
 app.get('/api/stats', (req, res) => {
-  db.get('SELECT COUNT(*) AS total, SUM(CASE WHEN paid=1 THEN 1 ELSE 0 END) AS paid FROM students', [], (err, row) => {
+  db.get(`
+    SELECT 
+      COUNT(*) AS total,
+      SUM(CASE WHEN paid=1 THEN 1 ELSE 0 END) AS paid,
+      SUM(CASE WHEN paid=1 THEN CAST(amount_due AS REAL) ELSE 0 END) AS sum
+    FROM students
+  `, [], (err, row) => {
     if (err) return res.status(500).json({ error: err.message });
     const total = row?.total || 0;
     const paid = row?.paid || 0;
-    res.json({ total, paid, unpaid: total - paid });
+    const sum = row?.sum || 0;
+    res.json({ total, paid, unpaid: total - paid, sum });
   });
 });
+
+
 
 // List students
 app.get('/api/students', (req, res) => {
@@ -275,4 +298,44 @@ io.on('connection', () => {});
 
 server.listen(PORT, () => {
   console.log(`✅ Ticket Reg System running at http://localhost:${PORT}`);
+});
+
+// === 驗票查詢 ===
+app.get('/api/verify/:serial', (req, res) => {
+  const serial = req.params.serial.trim();
+  if (!serial) return res.status(400).json({ error: '流水號不得為空' });
+
+  db.get('SELECT * FROM students WHERE serial=?', [serial], (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!row) return res.status(404).json({ error: '查無此流水號' });
+    res.json(row);
+  });
+});
+
+// === 驗票（確認） ===
+app.post('/api/verify/:serial/checkin', (req, res) => {
+  const serial = req.params.serial.trim();
+  db.run(
+    'UPDATE students SET verified=1, verified_at=? WHERE serial=?',
+    [new Date().toISOString().replace('T', ' ').substring(0, 19), serial],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      io.emit('data_changed');
+      res.json({ ok: true });
+    }
+  );
+});
+
+// === 取消驗票 ===
+app.post('/api/verify/:serial/uncheckin', (req, res) => {
+  const serial = req.params.serial.trim();
+  db.run(
+    'UPDATE students SET verified=0, verified_at=NULL WHERE serial=?',
+    [serial],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      io.emit('data_changed');
+      res.json({ ok: true });
+    }
+  );
 });

@@ -56,6 +56,8 @@ const importForm = $("#importForm");
 const excelFile = $("#excelFile");
 const btnAdd = $("#btnAdd");
 const editPhone = $("#editPhone");
+const statSum = $("#stat-sum");
+
 
 const editDialog = $("#editDialog");
 const editForm = $("#editForm");
@@ -109,6 +111,10 @@ async function refreshStats() {
   statPaid.textContent = `已付款：${s.paid}`;
   statUnpaid.textContent = `未付款：${s.unpaid}`;
   statTotal.textContent = `總數：${s.total}`;
+
+    // ✅ 新增已收金額顯示
+  const sum = s.sum || 0;
+  statSum.textContent = `💰已收金額：${Number(sum).toLocaleString('zh-TW')} 元`;
 }
 
 function renderRows(rows) {

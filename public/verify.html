@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>驗票系統</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    main {
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 24px;
+      background: var(--panel);
+      border-radius: 16px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #e6dcc8;
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .info-box {
+      margin-top: 16px;
+      background: #fffdfa;
+      border: 1px solid #e6dcc8;
+      border-radius: 10px;
+      padding: 12px;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .status {
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .status.ok {
+      background: rgba(144,183,125,0.25);
+      color: #496b35;
+    }
+    .status.warn {
+      background: rgba(231,192,124,0.25);
+      color: #7d5a2d;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <h1 style="display:flex; align-items:center; gap:10px;">
+        <img src="logo.png" class="header-logo" alt="Logo">
+        校園演唱會驗票系統
+    </h1>
+  </header>
+
+  <main>
+    <h2>請輸入流水號</h2>
+    <input id="serialInput" placeholder="例如：1234" maxlength="4" autofocus />
+    <button id="btnSearch" class="btn primary">查詢</button>
+
+    <div id="resultArea"></div>
+  </main>
+
+  <footer class="app-footer">
+    <div>Powered by <a href="https://www.instagram.com/wayne.94.20/" target="_blank" class="footer-link">Xioyan</a></div>
+    <div>v1.6.9</div>
+  </footer>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="verify.js"></script>
+</body>
+</html>
